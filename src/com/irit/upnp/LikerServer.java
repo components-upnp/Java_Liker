@@ -11,7 +11,6 @@ import org.fourthline.cling.model.types.DeviceType;
 import org.fourthline.cling.model.types.UDADeviceType;
 import org.fourthline.cling.model.types.UDN;
 
-import java.util.HashMap;
 
 /**
  * Created by mkostiuk on 13/07/2017.
