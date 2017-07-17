@@ -1,5 +1,6 @@
 package com.irit.upnp;
 
+import com.irit.display.Fenetre;
 import com.irit.main.Liker;
 import org.fourthline.cling.UpnpService;
 import org.fourthline.cling.UpnpServiceImpl;
@@ -43,25 +44,6 @@ public class LikerServer implements Runnable {
             e.printStackTrace();
         }
 
-        liker = new Liker();
-
-        receiveLikeService.getManager().getImplementation().getPropertyChangeSupport()
-                .addPropertyChangeListener(
-                        evt -> {
-                            if (evt.getPropertyName().equals("likeReveived")) {
-                                liker.addLike(evt.getPropertyName());
-                            }
-                        }
-                );
-
-        pageService.getManager().getImplementation().getPropertyChangeSupport()
-                .addPropertyChangeListener(
-                        evt -> {
-                            if (evt.getPropertyName().equals("numPage")) {
-                                numPageCourante = (String) evt.getNewValue();
-                            }
-                        }
-                );
     }
 
     private LocalDevice createDevice() throws ValidationException {
@@ -102,7 +84,7 @@ public class LikerServer implements Runnable {
         );
 
 
-        //new Fenetre(voteService,commandeProfesseurService,rapportService,questionService).setVisible(true);
+        new Fenetre(identity.getUdn().toString(), receiveLikeService, sendLikeService, pageService).setVisible(true);
 
         return new LocalDevice(
                 identity, type, details,

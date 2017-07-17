@@ -18,7 +18,7 @@ import java.io.StringWriter;
  */
 public class GenerateurXml {
 
-    private String getDocXml(String udn, String like) throws ParserConfigurationException, TransformerException {
+    public String getDocXml(String udn, String like) throws ParserConfigurationException, TransformerException {
 
         String namespace = "";
         Document doc;
