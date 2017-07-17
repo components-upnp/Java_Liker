@@ -28,11 +28,11 @@ public class ReceiveLikeService {
         return propertyChangeSupport;
     }
 
-    @UpnpStateVariable(name = "LikedPAge")
+    @UpnpStateVariable(name = "LikedPage")
     private String likedPage = "";
 
     @UpnpAction(name = "SetLikes")
-    public void setPageLike(@UpnpInputArgument(name = "NewLikedPageValue") String l) throws IOException, SAXException, ParserConfigurationException {
+    public void setPageLike(@UpnpInputArgument(name = "LikedPage") String l) throws IOException, SAXException, ParserConfigurationException {
         likedPage = l;
 
         LecteurXml lec = new LecteurXml(likedPage);

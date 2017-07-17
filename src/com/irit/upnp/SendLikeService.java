@@ -28,8 +28,9 @@ public class SendLikeService {
     private String likes = "";
 
     @UpnpAction(name = "SendLikes")
-    public void sendLikes(@UpnpInputArgument(name = "NewLikesValue") String l) {
+    public void sendLikes(@UpnpInputArgument(name = "Likes") String l) {
+        String oldValue = likes;
         likes = l;
-        getPropertyChangeSupport().firePropertyChange("LikesSend", "", likes);
+        getPropertyChangeSupport().firePropertyChange("Likes", oldValue, likes);
     }
 }
