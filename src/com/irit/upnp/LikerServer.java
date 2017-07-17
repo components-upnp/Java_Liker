@@ -19,6 +19,8 @@ public class LikerServer implements Runnable {
 
     private LocalService<ReceiveLikeService> receiveLikeService;
     private LocalService<SendLikeService> sendLikeService;
+    private LocalService<PageService> pageService;
+    private String numPageCourante;
     private Liker liker;
 
     @Override
@@ -48,6 +50,15 @@ public class LikerServer implements Runnable {
                         evt -> {
                             if (evt.getPropertyName().equals("likeReveived")) {
                                 liker.addLike(evt.getPropertyName());
+                            }
+                        }
+                );
+
+        pageService.getManager().getImplementation().getPropertyChangeSupport()
+                .addPropertyChangeListener(
+                        evt -> {
+                            if (evt.getPropertyName().equals("numPage")) {
+                                numPageCourante = (String) evt.getNewValue();
                             }
                         }
                 );
@@ -84,13 +95,18 @@ public class LikerServer implements Runnable {
         sendLikeService.setManager(
                 new DefaultServiceManager(sendLikeService,SendLikeService.class)
         );
+        pageService =
+                new AnnotationLocalServiceBinder().read(PageService.class);
+        pageService.setManager(
+                new DefaultServiceManager(pageService,PageService.class)
+        );
 
 
         //new Fenetre(voteService,commandeProfesseurService,rapportService,questionService).setVisible(true);
 
         return new LocalDevice(
                 identity, type, details,
-                new LocalService[] {sendLikeService, receiveLikeService}
+                new LocalService[] {sendLikeService, receiveLikeService, pageService}
         );
     }
 }
