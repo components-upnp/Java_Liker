@@ -1,8 +1,7 @@
 package com.irit.upnp;
 
-import org.fourthline.cling.binding.annotations.UpnpService;
-import org.fourthline.cling.binding.annotations.UpnpServiceId;
-import org.fourthline.cling.binding.annotations.UpnpServiceType;
+import com.irit.xml.LecteurXml;
+import org.fourthline.cling.binding.annotations.*;
 
 import java.beans.PropertyChangeSupport;
 
@@ -26,5 +25,14 @@ public class ReceiveLikeService {
         return propertyChangeSupport;
     }
 
+    private LecteurXml lec = new LecteurXml();
 
+    @UpnpStateVariable(name = "LikedPAge")
+    private String likedPage = "";
+
+    @UpnpAction(name = "SetLikes")
+    public void setPageLike(@UpnpInputArgument(name = "NewLikedPageValue") String l) {
+        likedPage = l;
+        getPropertyChangeSupport().firePropertyChange("likeReveived", "", lec.getLikes(likedPage));
+    }
 }

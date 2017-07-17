@@ -1,5 +1,6 @@
 package com.irit.upnp;
 
+import com.irit.main.Liker;
 import org.fourthline.cling.UpnpService;
 import org.fourthline.cling.UpnpServiceImpl;
 import org.fourthline.cling.binding.annotations.AnnotationLocalServiceBinder;
@@ -10,6 +11,8 @@ import org.fourthline.cling.model.types.DeviceType;
 import org.fourthline.cling.model.types.UDADeviceType;
 import org.fourthline.cling.model.types.UDN;
 
+import java.util.HashMap;
+
 /**
  * Created by mkostiuk on 13/07/2017.
  */
@@ -17,6 +20,7 @@ public class LikerServer implements Runnable {
 
     private LocalService<ReceiveLikeService> receiveLikeService;
     private LocalService<SendLikeService> sendLikeService;
+    private Liker liker;
 
     @Override
     public void run() {
@@ -37,6 +41,17 @@ public class LikerServer implements Runnable {
         } catch (ValidationException e) {
             e.printStackTrace();
         }
+
+        liker = new Liker();
+
+        receiveLikeService.getManager().getImplementation().getPropertyChangeSupport()
+                .addPropertyChangeListener(
+                        evt -> {
+                            if (evt.getPropertyName().equals("likeReveived")) {
+                                liker.addLike(evt.getPropertyName());
+                            }
+                        }
+                );
     }
 
     private LocalDevice createDevice() throws ValidationException {

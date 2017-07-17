@@ -1,8 +1,6 @@
 package com.irit.upnp;
 
-import org.fourthline.cling.binding.annotations.UpnpService;
-import org.fourthline.cling.binding.annotations.UpnpServiceId;
-import org.fourthline.cling.binding.annotations.UpnpServiceType;
+import org.fourthline.cling.binding.annotations.*;
 
 import java.beans.PropertyChangeSupport;
 
@@ -26,5 +24,12 @@ public class SendLikeService {
         return propertyChangeSupport;
     }
 
+    @UpnpStateVariable(name = "Likes")
+    private String likes = "";
 
+    @UpnpAction(name = "SendLikes")
+    public void sendLikes(@UpnpInputArgument(name = "NewLikesValue") String l) {
+        likes = l;
+        getPropertyChangeSupport().firePropertyChange("LikesSend", "", likes);
+    }
 }
