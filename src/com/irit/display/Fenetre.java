@@ -9,11 +9,14 @@ import com.irit.main.Liker;
 import com.irit.upnp.PageService;
 import com.irit.upnp.ReceiveLikeService;
 import com.irit.upnp.SendLikeService;
+import com.irit.xml.GenXmlSendLike;
+import com.irit.xml.GenXmlSendLikes;
 import com.irit.xml.GenerateurXml;
 import org.fourthline.cling.model.meta.LocalService;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import java.util.HashMap;
 
 /**
  *
@@ -26,7 +29,7 @@ public class Fenetre extends javax.swing.JFrame {
     private LocalService<PageService> pageService;
     private String numPageCourante;
     private Liker liker;
-    private GenerateurXml gen;
+    private GenerateurXml genSendLike, genSendLikes;
     private String udn;
 
     /**
@@ -40,7 +43,8 @@ public class Fenetre extends javax.swing.JFrame {
         pageService = p;
 
         liker = new Liker();
-        gen = new GenerateurXml();
+        genSendLike = new GenXmlSendLike();
+        genSendLikes = new GenXmlSendLikes();
 
         numPageCourante = "0";
 
@@ -49,6 +53,13 @@ public class Fenetre extends javax.swing.JFrame {
                         evt -> {
                             if (evt.getPropertyName().equals("likeReveived")) {
                                 liker.addLike(evt.getPropertyName());
+                                try {
+                                    sendLikeAfficheur();
+                                } catch (TransformerException e) {
+                                    e.printStackTrace();
+                                } catch (ParserConfigurationException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                 );
@@ -110,13 +121,37 @@ public class Fenetre extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void likeButtonActionPerformed(java.awt.event.ActionEvent evt) throws TransformerException, ParserConfigurationException {//GEN-FIRST:event_likeButtonActionPerformed
+
+        HashMap<String, String> args = new HashMap<>();
+        args.put("UDN", udn);
+        args.put("LIKE", numPageCourante);
+
+        liker.addLike(numPageCourante);
+
         sendLikeService.getManager().getImplementation().sendLikes(
-                gen.getDocXml(udn, numPageCourante)
+                genSendLike.getDocXml(args)
         );
         sendLikeService.getManager().getImplementation().sendLikes(
                 ""
         );
+
+        sendLikeAfficheur();
     }//GEN-LAST:event_likeButtonActionPerformed
+
+    public void sendLikeAfficheur() throws TransformerException, ParserConfigurationException {
+
+        HashMap<String,String> args = new HashMap<>();
+        args.put("UDN", udn);
+        args.putAll(liker.getLikes());
+
+        sendLikeService.getManager().getImplementation().sendLikes(
+                genSendLikes.getDocXml(args)
+        );
+
+        sendLikeService.getManager().getImplementation().sendLikes(
+                ""
+        );
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -24,9 +24,21 @@ public class SendLikeService {
         return propertyChangeSupport;
     }
 
+    @UpnpStateVariable(name = "Like")
+    private String like = "";
+
     @UpnpStateVariable(name = "Likes")
     private String likes = "";
 
+    //Envoie un unique like pour une slide donnée
+    @UpnpAction(name = "SendLike")
+    public void sendLike(@UpnpInputArgument(name = "Like") String l) {
+        String oldValue = like;
+        like = l;
+        getPropertyChangeSupport().firePropertyChange("Like", oldValue, like);
+    }
+
+    //Envoie l'ensemble des likes
     @UpnpAction(name = "SendLikes")
     public void sendLikes(@UpnpInputArgument(name = "Likes") String l) {
         String oldValue = likes;
