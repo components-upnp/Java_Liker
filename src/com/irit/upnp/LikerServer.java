@@ -21,8 +21,6 @@ public class LikerServer implements Runnable {
     private LocalService<ReceiveLikeService> receiveLikeService;
     private LocalService<SendLikeService> sendLikeService;
     private LocalService<PageService> pageService;
-    private String numPageCourante;
-    private Liker liker;
 
     @Override
     public void run() {
