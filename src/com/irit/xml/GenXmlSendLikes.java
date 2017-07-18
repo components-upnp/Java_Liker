@@ -44,10 +44,15 @@ public class GenXmlSendLikes implements GenerateurXml {
         u.appendChild(doc.createTextNode(udn));
 
         for (String key : args.keySet()) {
-            Element k = doc.createElementNS(namespace, key);
-            root.appendChild(k);
+            Element page = doc.createElementNS(namespace,"PAGE");
+            root.appendChild(page);
+
+            Element k = doc.createElementNS(namespace, "KEY");
+            page.appendChild(k);
+            k.appendChild(doc.createTextNode(key));
+
             Element nb = doc.createElementNS(namespace, "NBLIKES");
-            k.appendChild(nb);
+            page.appendChild(nb);
             nb.appendChild(doc.createTextNode(args.get(key)));
         }
 
