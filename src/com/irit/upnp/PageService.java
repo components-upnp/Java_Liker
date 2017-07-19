@@ -1,10 +1,7 @@
 package com.irit.upnp;
 
 import com.irit.xml.LecteurXml;
-import org.fourthline.cling.binding.annotations.UpnpService;
-import org.fourthline.cling.binding.annotations.UpnpServiceId;
-import org.fourthline.cling.binding.annotations.UpnpServiceType;
-import org.fourthline.cling.binding.annotations.UpnpStateVariable;
+import org.fourthline.cling.binding.annotations.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -34,7 +31,8 @@ public class PageService {
     @UpnpStateVariable(name = "NumPage")
     private String numPage = "";
 
-    public void setNumPage(String n) throws IOException, SAXException, ParserConfigurationException {
+    @UpnpAction(name = "SetNumPage")
+    public void setNumPage(@UpnpInputArgument(name = "NumPage") String n) throws IOException, SAXException, ParserConfigurationException {
         numPage = n;
 
         LecteurXml lec = new LecteurXml(n);

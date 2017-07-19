@@ -62,7 +62,6 @@ public class LecteurXml {
     }
 
     public String getNumPage() {
-        String page = new String();
         return page;
     }
 

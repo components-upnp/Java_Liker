@@ -52,13 +52,15 @@ public class Fenetre extends javax.swing.JFrame {
                 .addPropertyChangeListener(
                         evt -> {
                             if (evt.getPropertyName().equals("likeReveived")) {
-                                liker.addLike(evt.getPropertyName());
-                                try {
-                                    sendLikeAfficheur();
-                                } catch (TransformerException e) {
-                                    e.printStackTrace();
-                                } catch (ParserConfigurationException e) {
-                                    e.printStackTrace();
+                                if ((evt.getNewValue() != null) && (!((String)evt.getNewValue()).equals(""))) {
+                                    liker.addLike((String)evt.getNewValue());
+                                    try {
+                                        sendLikeAfficheur();
+                                    } catch (TransformerException e) {
+                                        e.printStackTrace();
+                                    } catch (ParserConfigurationException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }
@@ -128,10 +130,10 @@ public class Fenetre extends javax.swing.JFrame {
 
         liker.addLike(numPageCourante);
 
-        sendLikeService.getManager().getImplementation().sendLikes(
+        sendLikeService.getManager().getImplementation().sendLike(
                 genSendLike.getDocXml(args)
         );
-        sendLikeService.getManager().getImplementation().sendLikes(
+        sendLikeService.getManager().getImplementation().sendLike(
                 ""
         );
 
@@ -148,9 +150,6 @@ public class Fenetre extends javax.swing.JFrame {
                 genSendLikes.getDocXml(args)
         );
 
-        sendLikeService.getManager().getImplementation().sendLikes(
-                ""
-        );
     }
 
 
