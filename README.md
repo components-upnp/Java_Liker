@@ -20,15 +20,18 @@ maven install de projet.
 Ce composant offre les services UPnP suivant dont voici les descriptions :
 
   1) SendLikeService :
+  
     a) public void SendLike(String like) : permet d'envoyer un évènement UPnP "Like" aux autres Likers lorsqu'une slide a 
     été likée.
     b) public void SendLikes(String likes) : permet d'envoyer un évènement UPnP "Likes" à l'afficheur de likes connecté lorsqu'il 
     y a changement de slide ou un nouveau like reçu.
   
   2) PageService :
+  
     a) public void SetNumPage(String numPage) : reçoit un évènement UPnP contenant le numéro de la slide courante.
     
   3) ReceiveLikeService :
+  
     a) public void SetLike(String likedPage) : reçoit un évènement UPnP contenant le numéro de slide lorsqu'une slide est likée
     par un autre Liker.
     
